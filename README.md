@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Varta is a searchable weekly current affairs workspace built with [Next.js](https://nextjs.org). It organizes PDF notes by month and opens them in an in-app reader.
 
 ## Getting Started
 
