@@ -1,36 +1,36 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-geist",
   display: "swap",
 });
 
-const fraunces = Fraunces({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Varta — Weekly current affairs, beautifully organised",
+  title: "Varta — Current affairs, organized like a dashboard",
   description:
-    "A calm, searchable home for every weekly current affairs PDF. Read, revise, and download notes in seconds.",
+    "A focused, searchable workspace for weekly current affairs PDFs. Find, read, and revise notes in seconds.",
   applicationName: "Varta",
   keywords: ["current affairs", "weekly notes", "PDF library", "UPSC", "revision"],
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fbfbfa",
-  colorScheme: "light",
+  themeColor: "#050c16",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${fraunces.variable} h-full antialiased`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
