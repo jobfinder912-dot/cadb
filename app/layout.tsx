@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Varta — Current affairs, organized like a dashboard",
+  title: "Varta — Current affairs workspace",
   description:
-    "A focused, searchable workspace for weekly current affairs PDFs. Find, read, and revise notes in seconds.",
+    "A clean, searchable workspace for weekly current affairs PDFs. Browse, read, and revise notes in seconds.",
   applicationName: "Varta",
   keywords: ["current affairs", "weekly notes", "PDF library", "UPSC", "revision"],
 };
@@ -31,7 +31,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full bg-background text-ink">{children}</body>
     </html>
   );
 }

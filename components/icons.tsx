@@ -143,3 +143,83 @@ export function ClockIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function MenuIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  );
+}
+
+export function HomeIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2Z" />
+    </svg>
+  );
+}
+
+export function LayersIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+      <path d="m3 12 9 5 9-5" />
+      <path d="m3 16 9 5 9-5" />
+    </svg>
+  );
+}
+
+export function HistoryIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1" />
+      <path d="M3 4v4h4" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  );
+}
+
+export function HelpIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.7 9.2a2.4 2.4 0 0 1 4.6.8c0 1.8-2.3 2-2.3 3.6" />
+      <path d="M12 17h.01" />
+    </svg>
+  );
+}
+
+export function ChevronDownIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
+export function FilterIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 6h16M7 12h10M10 18h4" />
+    </svg>
+  );
+}
+
+export function ExternalLinkIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M14 4h6v6" />
+      <path d="M20 4 10 14" />
+      <path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" />
+    </svg>
+  );
+}
+
+export function CheckIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="m5 12 4.5 4.5L19 7" />
+    </svg>
+  );
+}

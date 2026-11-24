@@ -8,7 +8,9 @@ import {
   ChevronRightIcon,
   CloseIcon,
   DownloadIcon,
+  FileIcon,
 } from "@/components/icons";
+import { Label } from "@/components/ui";
 import { formatBytes, type PdfDocument } from "@/lib/types";
 
 type PdfReaderProps = {
@@ -19,6 +21,9 @@ type PdfReaderProps = {
   hasPrevious: boolean;
   hasNext: boolean;
 };
+
+const iconButton =
+  "flex size-9 shrink-0 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition-colors hover:border-primary/45 hover:text-primary disabled:cursor-not-allowed disabled:opacity-30";
 
 export default function PdfReader({
   pdf: doc,
@@ -47,80 +52,60 @@ export default function PdfReader({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-[#030910]/90 backdrop-blur-md"
+      className="fixed inset-0 z-[55] flex flex-col bg-[var(--overlay)] backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-label={doc.title}
     >
-      <div className="flex items-center gap-2.5 border-b border-line bg-surface px-3 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-md border border-primary/25 bg-primary-soft font-mono text-[10px] font-bold text-primary sm:size-10 sm:text-[11px]">
+      <div className="flex h-14 shrink-0 items-center gap-3 border-b border-line bg-surface px-3 sm:px-5">
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-primary/25 bg-primary-soft font-mono text-[10px] font-bold text-primary">
           PDF
-        </div>
+        </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[13px] font-medium text-ink sm:text-sm">{doc.title}</p>
-          <p className="truncate font-mono text-[10px] text-ink-faint sm:text-[11px]">
-            {doc.month} &nbsp;·&nbsp; {doc.period}
-            <span className="hidden sm:inline"> &nbsp;·&nbsp; {formatBytes(doc.size)}</span>
+          <div className="flex items-center gap-2">
+            <Label className="hidden sm:block">Reader</Label>
+            <p className="truncate text-[13px] font-medium text-ink">{doc.title}</p>
+          </div>
+          <p className="truncate font-mono text-[10px] text-ink-faint">
+            {doc.month} · {doc.period} · {formatBytes(doc.size)}
           </p>
         </div>
 
         <div className="flex items-center gap-1.5">
-          <button
-            onClick={onPrevious}
-            disabled={!hasPrevious}
-            aria-label="Previous note"
-            className="hidden size-9 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary disabled:opacity-30 sm:flex"
-          >
-            <ChevronLeftIcon className="size-5" />
+          <button onClick={onPrevious} disabled={!hasPrevious} aria-label="Previous note" className={`${iconButton} hidden sm:flex`}>
+            <ChevronLeftIcon className="size-4" />
           </button>
-          <button
-            onClick={onNext}
-            disabled={!hasNext}
-            aria-label="Next note"
-            className="hidden size-9 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary disabled:opacity-30 sm:flex"
-          >
-            <ChevronRightIcon className="size-5" />
+          <button onClick={onNext} disabled={!hasNext} aria-label="Next note" className={`${iconButton} hidden sm:flex`}>
+            <ChevronRightIcon className="size-4" />
           </button>
-          <a
-            href={`${doc.url}&download=1`}
-            className="hidden size-9 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary sm:flex"
-            aria-label="Download PDF"
-            title="Download PDF"
-          >
-            <DownloadIcon className="size-5" />
+          <a href={`${doc.url}&download=1`} className={`${iconButton} hidden sm:flex`} aria-label="Download PDF" title="Download PDF">
+            <DownloadIcon className="size-4" />
           </a>
-          <a
-            href={doc.url}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden size-9 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary sm:flex"
-            aria-label="Open in new tab"
-            title="Open in new tab"
-          >
-            <ArrowUpRightIcon className="size-5" />
+          <a href={doc.url} target="_blank" rel="noreferrer" className={`${iconButton} hidden sm:flex`} aria-label="Open in new tab" title="Open in new tab">
+            <ArrowUpRightIcon className="size-4" />
           </a>
           <button
             onClick={onClose}
-            className="flex size-9 items-center justify-center rounded-md bg-primary text-[#04130c] transition hover:bg-primary-bright active:scale-95"
             aria-label="Close reader"
+            className="sb-primary flex size-9 shrink-0 items-center justify-center rounded-md"
           >
-            <CloseIcon className="size-5" />
+            <CloseIcon className="size-4" />
           </button>
         </div>
       </div>
 
-      <div className="relative mx-2 flex-1 overflow-hidden rounded-t-lg border border-b-0 border-line bg-white sm:mx-6">
-        {!loaded && (
+      <div className="relative mx-0 min-h-0 flex-1 overflow-hidden bg-white sm:mx-4 sm:mb-0 sm:mt-3 sm:rounded-md sm:border sm:border-line">
+        {!loaded ? (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-surface">
-            <div className="flex size-12 items-center justify-center rounded-lg border border-primary/25 bg-primary-soft font-mono text-xs font-bold text-primary">
-              PDF
-            </div>
-            <p className="font-mono text-[11px] text-ink-faint">Opening {doc.month} notes…</p>
+            <span className="flex size-11 items-center justify-center rounded-md border border-primary/25 bg-primary-soft text-primary">
+              <FileIcon className="size-5" />
+            </span>
+            <p className="font-mono text-[11px] text-ink-faint">Opening {doc.month} notes...</p>
             <div className="h-1 w-32 overflow-hidden rounded-full bg-line">
               <div className="shimmer h-full w-full rounded-full" />
             </div>
           </div>
-        )}
+        ) : null}
         <iframe
           key={doc.id}
           src={`${doc.url}#toolbar=1&navpanes=0`}
@@ -130,46 +115,24 @@ export default function PdfReader({
         />
       </div>
 
-      <div className="hidden items-center justify-between border-t border-line bg-surface px-5 py-2.5 font-mono text-[10px] text-ink-faint sm:flex sm:px-7">
-        <span>Use your browser&apos;s PDF tools to search or print.</span>
-        <span>Esc to close &nbsp;·&nbsp; ← → to browse</span>
+      <div className="hidden shrink-0 items-center justify-between border-t border-line bg-surface px-5 py-2 font-mono text-[10px] text-ink-faint sm:flex">
+        <span>Use your browser tools to search or print.</span>
+        <span>Esc to close · ← → to browse</span>
       </div>
 
-      <div className="flex items-center justify-center gap-3 border-t border-line bg-surface px-4 py-3 sm:hidden">
-        <button
-          onClick={onPrevious}
-          disabled={!hasPrevious}
-          aria-label="Previous note"
-          className="flex size-10 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary disabled:opacity-30"
-        >
-          <ChevronLeftIcon className="size-5" />
+      <div className="flex shrink-0 items-center justify-center gap-2 border-t border-line bg-surface px-4 py-2.5 sm:hidden">
+        <button onClick={onPrevious} disabled={!hasPrevious} aria-label="Previous note" className={iconButton}>
+          <ChevronLeftIcon className="size-4" />
         </button>
-        <button
-          onClick={onNext}
-          disabled={!hasNext}
-          aria-label="Next note"
-          className="flex size-10 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary disabled:opacity-30"
-        >
-          <ChevronRightIcon className="size-5" />
+        <button onClick={onNext} disabled={!hasNext} aria-label="Next note" className={iconButton}>
+          <ChevronRightIcon className="size-4" />
         </button>
-        <span className="h-6 w-px bg-line" />
-        <a
-          href={`${doc.url}&download=1`}
-          className="flex size-10 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary"
-          aria-label="Download PDF"
-          title="Download PDF"
-        >
-          <DownloadIcon className="size-5" />
+        <span className="mx-1 h-5 w-px bg-line" />
+        <a href={`${doc.url}&download=1`} className={iconButton} aria-label="Download PDF" title="Download PDF">
+          <DownloadIcon className="size-4" />
         </a>
-        <a
-          href={doc.url}
-          target="_blank"
-          rel="noreferrer"
-          className="flex size-10 items-center justify-center rounded-md border border-line bg-panel text-ink-soft transition hover:border-primary/50 hover:text-primary"
-          aria-label="Open in new tab"
-          title="Open in new tab"
-        >
-          <ArrowUpRightIcon className="size-5" />
+        <a href={doc.url} target="_blank" rel="noreferrer" className={iconButton} aria-label="Open in new tab" title="Open in new tab">
+          <ArrowUpRightIcon className="size-4" />
         </a>
       </div>
     </div>

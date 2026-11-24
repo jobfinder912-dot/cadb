@@ -1,8 +1,8 @@
-import Library from "@/components/library";
+import Workspace from "@/components/workspace";
 import { getPdfs } from "@/lib/pdfs";
 
 export default async function Home() {
   const { documents, months } = await getPdfs();
 
-  return <Library documents={documents} months={months} />;
+  return <Workspace documents={documents} months={months} />;
 }

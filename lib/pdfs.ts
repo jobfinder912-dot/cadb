@@ -36,6 +36,18 @@ function parseFolder(folder: string) {
   };
 }
 
+function parseMonth(source: string) {
+  const folder = parseFolder(source.split("/")[0] ?? "");
+  if (folder.monthNumber) return folder;
+
+  const fileName = (source.split("/").pop() ?? "").replace(/[_-]+/g, " ");
+  const monthName = MONTH_NAMES.find((name) => new RegExp(`\\b${name}\\b`, "i").test(fileName));
+  if (!monthName) return folder;
+
+  const monthNumber = MONTH_NAMES.indexOf(monthName) + 1;
+  return { month: monthName, monthKey: monthName.toLowerCase(), monthNumber };
+}
+
 function extractPeriod(name: string) {
   const pattern =
     /\d{1,2}(?:st|nd|rd|th)?(?:\s+[A-Za-z]+)?\s*(?:to|[-–—])\s*\d{1,2}(?:st|nd|rd|th)?(?:\s*(?:to|[-–—])\s*\d{1,2}(?:st|nd|rd|th)?)?(?:\s+[A-Za-z]+)?/i;
@@ -51,6 +63,9 @@ function describe(name: string) {
 }
 
 function makeTitle(name: string, dateRange: string, month: string) {
+  if (/consolidated/i.test(name)) {
+    return dateRange ? `Consolidated notes · ${dateRange}` : "Consolidated revision notes";
+  }
   if (dateRange) return `Week of ${dateRange}`;
   const cleaned = name
     .replace(/\.pdf$/i, "")
@@ -83,9 +98,9 @@ export async function getPdfs(): Promise<{ documents: PdfDocument[]; months: Mon
     paths.map(async (fullPath) => {
       const name = path.basename(fullPath);
       const relative = path.relative(ROOT, fullPath).split(path.sep).join("/");
-      const info = parseFolder(relative.split("/")[0] ?? "");
+      const info = parseMonth(relative);
       const dateRange = extractPeriod(name);
-      const firstDay = Number(dateRange.match(/\d{1,2}/)?.[0] ?? 0);
+      const firstDay = /consolidated/i.test(name) ? 99 : Number(dateRange.match(/\d{1,2}/)?.[0] ?? 0);
       const accentIndex =
         (info.monthNumber * 3 + firstDay) % ACCENTS.length;
 
