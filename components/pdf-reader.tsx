@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
+import PdfViewer from "@/components/pdf-viewer";
 import {
   ArrowUpRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
   DownloadIcon,
-  FileIcon,
 } from "@/components/icons";
 import { Label } from "@/components/ui";
 import { formatBytes, type PdfDocument } from "@/lib/types";
@@ -33,22 +33,18 @@ export default function PdfReader({
   hasPrevious,
   hasNext,
 }: PdfReaderProps) {
-  const [loaded, setLoaded] = useState(false);
-
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
-      if (event.key === "ArrowLeft" && hasPrevious) onPrevious();
-      if (event.key === "ArrowRight" && hasNext) onNext();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [onClose, onPrevious, onNext, hasPrevious, hasNext]);
+  }, [onClose]);
 
   return (
     <div
@@ -94,30 +90,13 @@ export default function PdfReader({
         </div>
       </div>
 
-      <div className="relative mx-0 min-h-0 flex-1 overflow-hidden bg-white sm:mx-4 sm:mb-0 sm:mt-3 sm:rounded-md sm:border sm:border-line">
-        {!loaded ? (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-surface">
-            <span className="flex size-11 items-center justify-center rounded-md border border-primary/25 bg-primary-soft text-primary">
-              <FileIcon className="size-5" />
-            </span>
-            <p className="font-mono text-[11px] text-ink-faint">Opening {doc.month} notes...</p>
-            <div className="h-1 w-32 overflow-hidden rounded-full bg-line">
-              <div className="shimmer h-full w-full rounded-full" />
-            </div>
-          </div>
-        ) : null}
-        <iframe
-          key={doc.id}
-          src={`${doc.url}#toolbar=1&navpanes=0`}
-          title={`${doc.title} PDF viewer`}
-          onLoad={() => setLoaded(true)}
-          className="h-full w-full border-0"
-        />
+      <div className="min-h-0 flex-1 sm:mx-4 sm:mb-0 sm:mt-3 sm:overflow-hidden sm:rounded-md sm:border sm:border-line">
+        <PdfViewer key={doc.id} url={doc.url} title={doc.title} />
       </div>
 
       <div className="hidden shrink-0 items-center justify-between border-t border-line bg-surface px-5 py-2 font-mono text-[10px] text-ink-faint sm:flex">
-        <span>Use your browser tools to search or print.</span>
-        <span>Esc to close · ← → to browse</span>
+        <span>Pages render inside Varta, including on mobile.</span>
+        <span>Esc to close · ← → for pages</span>
       </div>
 
       <div className="flex shrink-0 items-center justify-center gap-2 border-t border-line bg-surface px-4 py-2.5 sm:hidden">
