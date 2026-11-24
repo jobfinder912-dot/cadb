@@ -47,14 +47,15 @@ export default function PdfReader({
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-[#0f1115]/80 backdrop-blur-md" role="dialog" aria-modal="true" aria-label={doc.title}>
-      <div className="flex items-center gap-3 px-4 py-3 text-white sm:px-6">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-sm font-semibold tracking-tight">
+      <div className="flex items-center gap-2.5 px-3 py-2.5 text-white sm:gap-3 sm:px-6 sm:py-3">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-xs font-semibold tracking-tight sm:size-10 sm:text-sm">
           PDF
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium sm:text-base">{doc.title}</p>
-          <p className="truncate text-xs text-white/55">
-            {doc.month} &nbsp;·&nbsp; {doc.period} &nbsp;·&nbsp; {formatBytes(doc.size)}
+          <p className="truncate text-[13px] font-medium sm:text-base">{doc.title}</p>
+          <p className="truncate text-[11px] text-white/55 sm:text-xs">
+            {doc.month} &nbsp;·&nbsp; {doc.period}
+            <span className="hidden sm:inline"> &nbsp;·&nbsp; {formatBytes(doc.size)}</span>
           </p>
         </div>
 
@@ -95,7 +96,7 @@ export default function PdfReader({
           </a>
           <button
             onClick={onClose}
-            className="flex size-10 items-center justify-center rounded-full bg-white text-[#14171c] transition hover:scale-105 active:scale-95"
+            className="flex size-9 items-center justify-center rounded-full bg-white text-[#14171c] transition hover:scale-105 active:scale-95 sm:size-10"
             aria-label="Close reader"
           >
             <CloseIcon className="size-5" />
@@ -103,7 +104,7 @@ export default function PdfReader({
         </div>
       </div>
 
-      <div className="relative mx-3 flex-1 overflow-hidden rounded-t-[22px] bg-white sm:mx-6">
+      <div className="relative mx-2 flex-1 overflow-hidden rounded-t-[18px] bg-white sm:mx-6 sm:rounded-t-[22px]">
         {!loaded && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white">
             <div className="flex size-12 items-center justify-center rounded-2xl bg-[#eef2ff] text-[#4f46e5]">
@@ -124,9 +125,47 @@ export default function PdfReader({
         />
       </div>
 
-      <div className="flex items-center justify-between px-5 py-2.5 text-[11px] text-white/45 sm:px-7">
+      <div className="hidden items-center justify-between px-5 py-2.5 text-[11px] text-white/45 sm:flex sm:px-7">
         <span>Use your browser&apos;s PDF tools to search or print.</span>
-        <span className="hidden sm:inline">Esc to close &nbsp;·&nbsp; ← → to browse</span>
+        <span>Esc to close &nbsp;·&nbsp; ← → to browse</span>
+      </div>
+
+      <div className="flex items-center justify-center gap-3 border-t border-white/10 px-4 py-3 sm:hidden">
+        <button
+          onClick={onPrevious}
+          disabled={!hasPrevious}
+          aria-label="Previous note"
+          className="flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 disabled:opacity-30"
+        >
+          <ChevronLeftIcon className="size-5" />
+        </button>
+        <button
+          onClick={onNext}
+          disabled={!hasNext}
+          aria-label="Next note"
+          className="flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 disabled:opacity-30"
+        >
+          <ChevronRightIcon className="size-5" />
+        </button>
+        <span className="h-6 w-px bg-white/15" />
+        <a
+          href={`${doc.url}&download=1`}
+          className="flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+          aria-label="Download PDF"
+          title="Download PDF"
+        >
+          <DownloadIcon className="size-5" />
+        </a>
+        <a
+          href={doc.url}
+          target="_blank"
+          rel="noreferrer"
+          className="flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+          aria-label="Open in new tab"
+          title="Open in new tab"
+        >
+          <ArrowUpRightIcon className="size-5" />
+        </a>
       </div>
     </div>
   );

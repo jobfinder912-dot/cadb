@@ -147,7 +147,7 @@ function OpenButton({ onClick, label = "Read note" }: { onClick: () => void; lab
   return (
     <button
       onClick={onClick}
-      className="group/btn inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-2 text-xs font-semibold text-ink transition-all duration-300 hover:border-ink hover:bg-ink hover:text-white"
+      className="group/btn inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-2 text-[11px] font-semibold text-ink transition-all duration-300 hover:border-ink hover:bg-ink hover:text-white sm:px-3.5 sm:text-xs"
     >
       {label}
       <ArrowUpRightIcon className="size-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
@@ -169,25 +169,25 @@ function PdfCard({
   if (view === "list") {
     return (
       <article
-        className={`accent-${doc.accent} card-surface reveal group flex items-center gap-4 p-3 transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_18px_40px_-24px_rgba(20,23,28,0.35)]`}
+        className={`accent-${doc.accent} card-surface reveal group flex items-center gap-3 p-2.5 transition-[transform,border-color,box-shadow] duration-500 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[0_18px_40px_-24px_rgba(20,23,28,0.35)] sm:gap-4 sm:p-3`}
         style={{ "--delay": `${(index % 8) * 45}ms` } as CSSProperties}
       >
-        <button onClick={onOpen} aria-label={`Read ${doc.title}`} className="h-20 w-16 shrink-0 overflow-hidden rounded-xl">
+        <button onClick={onOpen} aria-label={`Read ${doc.title}`} className="h-16 w-12 shrink-0 overflow-hidden rounded-xl sm:h-20 sm:w-16">
           <MiniPdf doc={doc} />
         </button>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider" style={{ color: "var(--accent)" }}>
-            <span>{doc.month}</span>
-            <span className="size-1 rounded-full bg-line-strong" />
-            <span className="normal-case tracking-normal text-ink-faint">{doc.period}</span>
+          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider sm:text-[11px]" style={{ color: "var(--accent)" }}>
+            <span className="truncate">{doc.month}</span>
+            <span className="size-1 shrink-0 rounded-full bg-line-strong" />
+            <span className="hidden truncate normal-case tracking-normal text-ink-faint sm:inline">{doc.period}</span>
           </div>
-          <h3 className="mt-1 truncate text-[15px] font-medium tracking-tight text-ink">{doc.title}</h3>
-          <p className="mt-0.5 truncate text-xs text-ink-faint">{doc.fileName}</p>
+          <h3 className="mt-1 truncate text-sm font-medium tracking-tight text-ink sm:text-[15px]">{doc.title}</h3>
+          <p className="mt-0.5 hidden truncate text-xs text-ink-faint sm:block">{doc.fileName}</p>
         </div>
-        <span className="hidden shrink-0 rounded-full bg-surface-soft px-3 py-1.5 text-xs text-ink-soft md:inline">
+        <span className="hidden shrink-0 rounded-full bg-surface-soft px-3 py-1.5 text-xs text-ink-soft lg:inline">
           {formatBytes(doc.size)}
         </span>
-        <OpenButton onClick={onOpen} />
+        <OpenButton onClick={onOpen} label="Read" />
       </article>
     );
   }
@@ -336,8 +336,8 @@ export default function Library({ documents, months }: LibraryProps) {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line/80 bg-[rgba(251,251,250,0.82)] backdrop-blur-xl">
-        <div className="mx-auto flex h-[68px] max-w-[1240px] items-center gap-6 px-5 sm:px-8">
-          <a href="#top" className="flex items-center gap-2.5" aria-label="Varta home">
+        <div className="mx-auto flex h-[64px] max-w-[1240px] items-center gap-3 px-4 sm:h-[68px] sm:gap-6 sm:px-8">
+          <a href="#top" className="flex shrink-0 items-center gap-2.5" aria-label="Varta home">
             <span className="flex size-8 items-center justify-center rounded-[10px] bg-slate-ink text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
               <SparkIcon className="size-[18px]" />
             </span>
@@ -352,7 +352,7 @@ export default function Library({ documents, months }: LibraryProps) {
             <a href="#how" className="transition-colors hover:text-ink">How it works</a>
           </nav>
 
-          <div className="ml-auto flex items-center gap-2.5">
+          <div className="ml-auto flex shrink-0 items-center gap-2.5">
             <button
               onClick={() => searchRef.current?.focus()}
               className="hidden items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-2 text-xs text-ink-faint transition hover:border-line-strong hover:text-ink sm:flex"
@@ -361,8 +361,9 @@ export default function Library({ documents, months }: LibraryProps) {
               Search notes
               <kbd className="rounded border border-line bg-surface-soft px-1.5 py-0.5 font-sans text-[10px]">/</kbd>
             </button>
-            <GlowButton href="#library" className="bg-slate-ink text-white">
-              Open library
+            <GlowButton href="#library" className="bg-slate-ink px-4 text-white sm:px-5">
+              <span className="hidden sm:inline">Open library</span>
+              <span className="sm:hidden">Library</span>
               <ArrowRightIcon className="size-4" />
             </GlowButton>
           </div>
@@ -375,14 +376,14 @@ export default function Library({ documents, months }: LibraryProps) {
           <div className="breathe pointer-events-none absolute -left-40 top-10 size-[420px] rounded-full bg-indigo-200/25 blur-[110px]" />
           <div className="breathe pointer-events-none absolute -right-32 top-0 size-[380px] rounded-full bg-orange-200/25 blur-[110px]" />
 
-          <div className="relative mx-auto grid max-w-[1240px] items-center gap-14 px-5 pb-20 pt-16 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:pb-28 lg:pt-24">
+          <div className="relative mx-auto grid max-w-[1240px] items-center gap-10 px-4 pb-14 pt-12 sm:px-8 sm:pb-20 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pb-28 lg:pt-24">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-3.5 py-1.5 text-xs font-medium text-ink-soft shadow-sm backdrop-blur">
                 <span className="breathe size-1.5 rounded-full bg-green" />
                 {documents.length} curated notes · {months.length} months · 2026 edition
               </div>
 
-              <h1 className="mt-7 max-w-[640px] font-display text-[44px] font-medium leading-[1.06] tracking-[-0.045em] text-ink sm:text-[62px] lg:text-[70px]">
+              <h1 className="mt-7 max-w-[640px] font-display text-[38px] font-medium leading-[1.08] tracking-[-0.045em] text-ink sm:text-[62px] sm:leading-[1.06] lg:text-[70px]">
                 Every week in focus,
                 <br />
                 <em className="font-normal text-indigo-accent">nothing missed.</em>
@@ -393,7 +394,7 @@ export default function Library({ documents, months }: LibraryProps) {
                 comfortably, and get back to what matters.
               </p>
 
-              <form onSubmit={onSearchSubmit} className="mt-9 flex max-w-[560px] items-center gap-2 rounded-full border border-line bg-white p-2 pl-5 shadow-[0_18px_40px_-28px_rgba(20,23,28,0.45)] transition focus-within:border-indigo-300 focus-within:shadow-[0_20px_50px_-26px_rgba(79,70,229,0.4)]">
+              <form onSubmit={onSearchSubmit} className="mt-8 flex max-w-[560px] items-center gap-2 rounded-full border border-line bg-white p-1.5 pl-4 shadow-[0_18px_40px_-28px_rgba(20,23,28,0.45)] transition focus-within:border-indigo-300 focus-within:shadow-[0_20px_50px_-26px_rgba(79,70,229,0.4)] sm:mt-9 sm:p-2 sm:pl-5">
                 <SearchIcon className="size-[18px] shrink-0 text-ink-faint" />
                 <input
                   ref={searchRef}
@@ -401,9 +402,9 @@ export default function Library({ documents, months }: LibraryProps) {
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Search a week, topic or file name…"
                   aria-label="Search PDF notes"
-                  className="min-w-0 flex-1 bg-transparent py-2 text-sm text-ink outline-none placeholder:text-ink-faint"
+                  className="min-w-0 flex-1 bg-transparent py-2 text-[13px] text-ink outline-none placeholder:text-ink-faint sm:text-sm"
                 />
-                <GlowButton type="submit" className="shrink-0 bg-slate-ink px-4 py-2.5 text-white sm:px-5">
+                <GlowButton type="submit" className="shrink-0 bg-slate-ink px-3.5 py-2.5 text-white sm:px-5">
                   <span className="hidden sm:inline">Find notes</span>
                   <ArrowRightIcon className="size-4" />
                 </GlowButton>
@@ -424,6 +425,23 @@ export default function Library({ documents, months }: LibraryProps) {
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="scrollbar-none -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 sm:-mx-8 sm:px-8 lg:hidden">
+              {[heroOne, heroTwo, heroThree].map((doc, index) => (
+                <div
+                  key={`${doc.id}-${index}`}
+                  className={`accent-${doc.accent} w-[200px] shrink-0 snap-start rounded-[20px] border border-line bg-white p-2.5 shadow-[0_18px_40px_-28px_rgba(20,23,28,0.4)] sm:w-[230px]`}
+                >
+                  <div className="aspect-[5/4] overflow-hidden rounded-2xl">
+                    <MiniPdf doc={doc} />
+                  </div>
+                  <p className="mt-2.5 truncate text-[11px]" style={{ color: "var(--accent)" }}>
+                    {doc.month}
+                  </p>
+                  <p className="mt-0.5 truncate text-xs font-medium text-ink">{doc.title}</p>
+                </div>
+              ))}
             </div>
 
             <div className="relative hidden h-[430px] lg:block">
@@ -465,7 +483,7 @@ export default function Library({ documents, months }: LibraryProps) {
           </div>
         </section>
 
-        <section className="mx-auto max-w-[1240px] px-5 py-10 sm:px-8">
+        <section className="mx-auto max-w-[1240px] px-4 py-8 sm:px-8 sm:py-10">
           <Reveal className="card-surface grid grid-cols-2 divide-line md:grid-cols-4 md:divide-x">
             {[
               { value: String(documents.length), label: "Weekly notes", icon: <FileIcon className="size-4" /> },
@@ -473,13 +491,13 @@ export default function Library({ documents, months }: LibraryProps) {
               { value: "52", label: "Weeks a year", icon: <ClockIcon className="size-4" /> },
               { value: "01", label: "Place for it all", icon: <BookIcon className="size-4" /> },
             ].map((stat) => (
-              <div key={stat.label} className="flex items-center gap-3 px-5 py-5 sm:px-7">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-surface-soft text-ink-soft">
+              <div key={stat.label} className="flex items-center gap-2.5 px-3 py-4 sm:gap-3 sm:px-7 sm:py-5">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-surface-soft text-ink-soft sm:size-9">
                   {stat.icon}
                 </span>
-                <div>
-                  <p className="font-display text-2xl font-medium leading-none tracking-tight text-ink">{stat.value}</p>
-                  <p className="mt-1.5 text-xs text-ink-faint">{stat.label}</p>
+                <div className="min-w-0">
+                  <p className="font-display text-xl font-medium leading-none tracking-tight text-ink sm:text-2xl">{stat.value}</p>
+                  <p className="mt-1.5 text-[10px] leading-tight text-ink-faint sm:text-xs">{stat.label}</p>
                 </div>
               </div>
             ))}
@@ -497,7 +515,7 @@ export default function Library({ documents, months }: LibraryProps) {
           </div>
         </div>
 
-        <section id="library" className="mx-auto max-w-[1240px] scroll-mt-24 px-5 py-20 sm:px-8 lg:py-28">
+        <section id="library" className="mx-auto max-w-[1240px] scroll-mt-20 px-4 py-14 sm:scroll-mt-24 sm:px-8 sm:py-20 lg:py-28">
           <Reveal className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-indigo-accent">01 / The archive</p>
@@ -540,7 +558,7 @@ export default function Library({ documents, months }: LibraryProps) {
                 ))}
               </div>
 
-              <div className="flex shrink-0 items-center gap-2 border-line lg:border-l lg:pl-3">
+              <div className="flex shrink-0 items-center justify-between gap-2 border-line lg:justify-start lg:border-l lg:pl-3">
                 <label className="relative flex items-center">
                   <span className="sr-only">Sort notes</span>
                   <select
@@ -630,7 +648,7 @@ export default function Library({ documents, months }: LibraryProps) {
         </section>
 
         <section id="how" className="border-y border-line bg-surface">
-          <div className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-24">
+          <div className="mx-auto max-w-[1240px] px-4 py-14 sm:px-8 sm:py-20 lg:py-24">
             <Reveal>
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-accent">02 / How it works</p>
               <h2 className="mt-3 font-display text-[36px] font-medium leading-[1.1] tracking-[-0.04em] text-ink sm:text-[46px]">
@@ -681,8 +699,8 @@ export default function Library({ documents, months }: LibraryProps) {
           </div>
         </section>
 
-        <section className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8">
-          <Reveal className="relative overflow-hidden rounded-[32px] bg-slate-ink px-7 py-14 text-white sm:px-14 sm:py-16">
+        <section className="mx-auto max-w-[1240px] px-4 py-14 sm:px-8 sm:py-20">
+          <Reveal className="relative overflow-hidden rounded-[28px] bg-slate-ink px-6 py-12 text-white sm:rounded-[32px] sm:px-14 sm:py-16">
             <div className="motif-dots pointer-events-none absolute inset-0 opacity-20" />
             <div className="breathe pointer-events-none absolute -right-16 -top-24 size-[360px] rounded-full bg-indigo-500/40 blur-[100px]" />
             <div className="breathe pointer-events-none absolute -bottom-28 left-1/3 size-[300px] rounded-full bg-orange-500/25 blur-[100px]" />
@@ -698,7 +716,7 @@ export default function Library({ documents, months }: LibraryProps) {
                   Your whole current affairs archive, quietly in one place. No noise, no clutter — just the notes you need.
                 </p>
               </div>
-              <GlowButton href="#library" className="shrink-0 bg-white text-slate-ink">
+              <GlowButton href="#library" className="w-full shrink-0 bg-white text-slate-ink sm:w-auto">
                 Explore all {documents.length} notes
                 <ArrowUpRightIcon className="size-4" />
               </GlowButton>
@@ -708,7 +726,7 @@ export default function Library({ documents, months }: LibraryProps) {
       </main>
 
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-4 px-5 py-8 text-xs text-ink-faint sm:flex-row sm:items-center sm:px-8">
+        <div className="mx-auto flex max-w-[1240px] flex-col items-start justify-between gap-4 px-4 py-8 text-xs text-ink-faint sm:flex-row sm:items-center sm:px-8">
           <div className="flex items-center gap-2">
             <span className="flex size-6 items-center justify-center rounded-lg bg-slate-ink text-white">
               <SparkIcon className="size-3.5" />
